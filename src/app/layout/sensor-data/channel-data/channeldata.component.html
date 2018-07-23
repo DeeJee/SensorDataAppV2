@@ -1,0 +1,78 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Charts'" [icon]="'fa-bar-chart-o'"></app-page-header>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-3">
+                Bron
+            </div>
+            <div class="col-md-2">
+                Van
+            </div>
+            <div class="col-md-2">
+                Tot
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <dataSourceSelector [channel]="channel"  (dataSourceChange)="dataSourceChanged($event)"></dataSourceSelector>
+            </div>
+            <div class="col-md-2">
+                <sd-date-picker #fromPicker></sd-date-picker>
+            </div>
+            <div class="col-md-2">
+                <sd-date-picker #toPicker></sd-date-picker>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-default" (click)="refresh()">
+                    <span class="fa fa-refresh"></span> Refresh
+                </button>
+            </div>
+        </div>
+        &nbsp;
+    </div>
+    <!-- /.panel-body -->
+
+    <div class="row">
+
+        <div class="col col-md12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    Line Chart
+                </div>
+                <div class="panel-body">
+                    <p>
+                        Last data received:
+                        <span>{{lastData|amTimeAgo }} </span>
+                    </p>
+
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link" [class.active]="tab=='data'" (click)="switchTab('data')">Data</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" [class.active]="tab=='metadata'" (click)="switchTab('metadata')">Metadata</a>
+                        </li>
+                    </ul>
+
+                    <div class="card-body">
+                        <div *ngIf="loading">
+                            <app-loading-spinner [(show)]="loading" message="loading"></app-loading-spinner>
+                        </div>
+                    </div>
+                    <div class="container fill" [hidden]="tab!='data'">
+                        <div #dataCharts></div>
+                    </div>
+                    <div class="container fill" [hidden]="tab!='metadata'">
+                        <div #metadataCharts></div>
+                    </div>
+
+
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+</div>
