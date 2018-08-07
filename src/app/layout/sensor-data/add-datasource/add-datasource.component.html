@@ -7,30 +7,47 @@
 <!-- /.panel-heading -->
 <div class="panel-body">
 
-  <!-- <app-loading-spinner *ngIf="showSpinner"></app-loading-spinner> -->
-  <table class="table">
-    <thead>
-      <tr>
-        <th scope="col">DeviceId</th>
-        <th scope="col">Type</th>
-        <th scope="col">Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let ds of dataSources">
-        <td>{{ds.DeviceId}}</td>
-        <td>
-          <select class="form-control" [(ngModel)]="ds.DataTypeId" (ngModelChange)="dataTypeSelected($event, ds)">
-            <option *ngFor="let dataType of dataTypes" value="{{dataType.Id}}">{{dataType.Name}}</option>
-          </select>
-        </td>
-        <td>
-          <input type="text" [(ngModel)]="ds.Description" class="form-control">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
+  <div style="width:1000px;">
+    <table class="table">
+      <thead>
+        <tr>
+          <th></th>
+          <th scope="col">DeviceId</th>
+          <th scope="col">Count</th>
+          <th scope="col">Last update</th>
+          <th scope="col">Type</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="loading">
+          <td colspan="6" >
+            <div class="col-aligncenter">
+              <app-loading-spinner></app-loading-spinner>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let ds of dataSources" class="datarow">
+          <td class="datarow">
+            <a class="btn btn-info btn-md" (click)="delete(ds.DeviceId)">
+              <span class="fa fa-trash"></span> Delete
+            </a>
+          </td>
+          <td class="datarow">{{ds.DeviceId}}</td>
+          <td class="datarow">{{ds.Count}}</td>
+          <td class="datarow">{{ds.TimeStamp}}</td>
+          <td class="datarow">
+            <select class="form-control" [(ngModel)]="ds.DataTypeId" (ngModelChange)="dataTypeSelected($event, ds)">
+              <option *ngFor="let dataType of dataTypes" value="{{dataType.Id}}">{{dataType.Name}}</option>
+            </select>
+          </td>
+          <td>
+            <input type="text" [(ngModel)]="ds.Description" class="form-control">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 
 

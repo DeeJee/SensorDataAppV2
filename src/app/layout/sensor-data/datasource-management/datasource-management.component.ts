@@ -3,6 +3,7 @@ import { DatasourceService } from '../services/datasource.service';
 import { QuerystringBuilderService } from '../services/querystringbuilder.service';
 import { Datasource } from '../../models/datasource';
 import { Channel } from '../../models/Channel';
+import { Router } from '../../../../../node_modules/@angular/router';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class DatasourceManagementComponent implements OnInit {
   ngOnInit(): void {
     this.loadData();
   }
-  constructor(private datasourceService: DatasourceService) { }
+  constructor(private datasourceService: DatasourceService, private router :Router) { }
 
   loadData(): void {
     this.datasourceService.getDataSourceTypes().subscribe(res => {
@@ -51,6 +52,10 @@ export class DatasourceManagementComponent implements OnInit {
           }
         }
       });
+  }
+
+  edit(id): void {
+    this.router.navigate([`datasourcedetails/${id}`]);
   }
 
   save(): void {

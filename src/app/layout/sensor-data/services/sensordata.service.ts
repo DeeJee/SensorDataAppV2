@@ -35,6 +35,12 @@ export class SensorDataService {
             //.catch(this.handleError);
     }
 
+    public deleteAll(deviceId: string): Observable<void> {
+        let url = `${this.host}${this.baseUrl}/SensorData/${deviceId}`;
+
+        return this.http.delete<void>(url);
+    }
+
     // public getDataSources(channelId: number): Observable<Datasource[]> {
     //     return this.http.get<Datasource[]>(this.dataSourcesUrl + "?channel=" + channelId);
     //         //.map(res => res).catch(this.handleError);
@@ -43,5 +49,9 @@ export class SensorDataService {
     public getMostRecent(dataSource: string): Observable<DataModel> {
         let url = `${this.host}${this.baseUrl}/SensorData/${dataSource}/MostRecent`;
         return this.http.get<DataModel>(url);
+    }
+    public getCount(dataSource: string): Observable<number> {
+        let url = `${this.host}${this.baseUrl}/SensorData/${dataSource}/count`;
+        return this.http.get<number>(url);
     }
 }

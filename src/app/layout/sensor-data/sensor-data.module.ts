@@ -12,6 +12,8 @@ import { MatDialog, MatDialogModule } from "@angular/material";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { DatasourceManagementComponent } from "./datasource-management/datasource-management.component";
 import { CreateDataTypeComponent } from "./create-data-type/create-data-type.component";
+import { DatasourceDetailsComponent } from './datasource-details/datasource-details.component';
+import { LoadingSpinnerModule } from "../../shared/modules/loading-spinner/loading-spinner.module";
 
 
 @NgModule({
@@ -19,13 +21,15 @@ import { CreateDataTypeComponent } from "./create-data-type/create-data-type.com
         CommonModule,
         FormsModule,
         OverlayModule,
-        MatDialogModule       
+        MatDialogModule       ,
+        LoadingSpinnerModule
     ],
     declarations:[
         AddDatasourceComponent,
         DatasourceManagementComponent,
         DataTypeControlComponent,
-        CreateDataTypeComponent
+        CreateDataTypeComponent,
+        DatasourceDetailsComponent
     ],
     exports: [],
     providers:[

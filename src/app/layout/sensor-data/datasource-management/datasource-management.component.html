@@ -1,22 +1,32 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <i class="fa fa-bar-chart-o fa-fw"></i> Manage datasources
-    <div class="pull-right">  
+    <div class="pull-right">
     </div>
   </div>
   <!-- /.panel-heading -->
   <div class="panel-body">
+    <div style="width:1000px;">
     <div class="row">
       <div class="col-md-1">
       </div>
+      <div class="col-md-1">
+      </div>
       <div class="col-md-3">
-        <label class="form-control">DeviceId</label>
+        <th>
+          <label>DeviceId</label>
+        </th>
+      </div>
+      <div class="col-md-3">
+        <th>
+          <label>Type</label>
+        </th>
       </div>
       <div class="col-md-4">
-        <label class="form-control">Type</label>
-      </div>
-      <div class="col-md-4">
-        <label class="label label-default">Description</label>
+        <th>
+          <label>Description</label>
+        </th>
+
       </div>
     </div>
 
@@ -26,10 +36,15 @@
           <span class="fa fa-trash-o"></span> Trash
         </a>
       </div>
+      <div class="col-md-1">
+        <a class="btn btn-info btn-md" (click)="edit(ds.DeviceId)">
+          <span class="fa fa-edit"></span> Edit
+        </a>
+      </div>
       <div class="col-md-3">
         <label class="form-control">{{ds.DeviceId}}</label>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <select class="form-control" [(ngModel)]="ds.DataTypeId">
           <option *ngFor="let type of dataSourceTypes" value="{{type.Id}}">{{type.Name}}</option>
         </select>
@@ -38,9 +53,10 @@
         <input type="text" [(ngModel)]="ds.Description" class="form-control">
       </div>
     </div>
-
+  </div>
+   
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-12">
         <input type="button" class="btn btn-default" (click)="save()" value="save">
       </div>
     </div>

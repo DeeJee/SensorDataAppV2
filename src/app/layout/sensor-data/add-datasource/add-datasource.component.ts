@@ -6,6 +6,9 @@ import { QuerystringBuilderService } from '../services/querystringbuilder.servic
 import { Datasource } from '../../models/datasource';
 import { DataType } from '../../models/DataType';
 import { CreateDataTypeComponent } from '../create-data-type/create-data-type.component';
+import { Router } from '../../../../../node_modules/@angular/router';
+import { HttpErrorResponse } from '../../../../../node_modules/@angular/common/http';
+import { SensorDataService } from '../services/sensordata.service';
 
 @Component({
   providers: [DatasourceService, DataTypeService, QuerystringBuilderService],
@@ -15,33 +18,36 @@ import { CreateDataTypeComponent } from '../create-data-type/create-data-type.co
 export class AddDatasourceComponent implements OnInit {
   dataSources: Datasource[] = [];
   dataTypes: DataType[] = [];
-  showSpinner: boolean = true;
   dialogRef: MatDialogRef<CreateDataTypeComponent>;
   error: string;
+  loading: boolean;
 
 
   ngOnInit(): void {
     this.loadData();
   }
-  constructor(private datasourceService: DatasourceService,
+  constructor(
+    private router: Router,
+    private datasourceService: DatasourceService,
+    private sensorDataService: SensorDataService,
     private dataTypeService: DataTypeService,
     private dialog: MatDialog) { }
 
-    dataTypeSelected(value: any, ds:any): void{
-      if(value=="0"){
-        this.dialogRef = this.dialog.open(CreateDataTypeComponent, 
-          { 
-            data: { datasource: ds, title:"aap" },
-         //   position: {top: '-100', left: '-100'},
-            width:"600px"
-          });
-        this.dialogRef.afterClosed().subscribe((res) => {
-          if (res) {
-            this.loadDataTypes();
-          }
+  dataTypeSelected(value: any, ds: any): void {
+    if (value == "0") {
+      this.dialogRef = this.dialog.open(CreateDataTypeComponent,
+        {
+          data: { datasource: ds, title: "aap" },
+          //   position: {top: '-100', left: '-100'},
+          width: "600px"
         });
-      }
+      this.dialogRef.afterClosed().subscribe((res) => {
+        if (res) {
+          this.loadDataTypes();
+        }
+      });
     }
+  }
   onCreateDataType(ds: Datasource): void {
     this.dialogRef = this.dialog.open(CreateDataTypeComponent, { data: { datasource: ds } });
     this.dialogRef.afterClosed().subscribe((res) => {
@@ -51,18 +57,32 @@ export class AddDatasourceComponent implements OnInit {
     });
   }
 
+  delete(id): void {
+    this.sensorDataService.deleteAll(id).subscribe(res => {
+      let toBeDeleted = this.dataSources.filter(f => f.DeviceId === id)[0];
+      let index = this.dataSources.indexOf(toBeDeleted);
+      this.dataSources.splice(index, 1);
+    },
+      (err: HttpErrorResponse) => {
+        console.error(err.error.Message);
+      });
+  }
+
   loadData(): void {
+    this.loading = true;
     this.loadDataTypes();
 
     this.datasourceService.getNewDataSources().subscribe(res => {
-      for (let index = 0; index < res.length; index++) {
-        let item = res[index];
-        this.dataSources.push(item);
-      }
+      this.dataSources = res;
+      this.loading = false;
+      // for (let index = 0; index < res.length; index++) {
+      //   let item = res[index];
+      //   this.dataSources.push(item);
+      // }
     }, err => null,
       () => {
         console.log('new dataSources loaded');
-        this.showSpinner = false;
+        this.loading = false;
       });
   }
 

@@ -1,6 +1,6 @@
-import { Component, OnInit, ComponentFactoryResolver, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver, Input, ViewChild, ViewContainerRef, OnDestroy } from '@angular/core';
 import { DatasourceService } from '../services/datasource.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataTypeService } from '../services/datatype.service';
 import { routerTransition } from '../../../router.animations';
 import { Datasource } from '../../models/datasource';
@@ -13,6 +13,7 @@ import { SignalR, ISignalRConnection, BroadcastEventListener } from 'ng2-signalr
 import { DataModel } from '../../models/datamodel';
 import { SensorDataService } from '../services/sensordata.service';
 import { forEach } from '../../../../../node_modules/typescript-collections/dist/lib/arrays';
+import { Series } from '../sensordata-chart/series';
 
 @Component({
     selector: 'app-channeldata',
@@ -20,17 +21,18 @@ import { forEach } from '../../../../../node_modules/typescript-collections/dist
     styleUrls: ['./channeldata.component.scss'],
     animations: [routerTransition()]
 })
-export class ChanneldataComponent implements OnInit {
+export class ChanneldataComponent implements OnInit, OnDestroy {
+
     tab: string;
     loading: boolean;
     startDate: any;
     endDate: any;
     lastData: string;
     public dataSource: Datasource;
-    public chartLabels: any[] = [];
     labels: Date[] = [];
-    feeds = new Collections.Dictionary<string, any[]>();
-    graphs: any[];
+    feeds = new Collections.Dictionary<string, Series[]>();
+    charts: any[];
+    properties: string[];
 
     @Input() public channel: number;
     @ViewChild('dataCharts', { read: ViewContainerRef }) dataContainer;
@@ -40,23 +42,24 @@ export class ChanneldataComponent implements OnInit {
     private connection: ISignalRConnection;
     private _subscription: Subscription;
 
-    constructor(private datasourceService: DatasourceService,
+    constructor(
         private sensorDataService: SensorDataService,
         private activatedRoute: ActivatedRoute,
         private componentFactoryResolver: ComponentFactoryResolver,
         private dataTypeService: DataTypeService,
         private _signalR: SignalR) {
-        this.graphs = [];
+        this.charts = [];
     }
 
     ngOnInit() {
         this.switchTab('data');
+
         this.activatedRoute.params.subscribe(params => {
             this.channel = params['id'];
         });
 
         let onSensorDataReceived$ = new BroadcastEventListener<DataModel>('SensorDataReceived');
-        this._signalR.connect().then(connection => {
+        this._signalR.connect({}).then(connection => {
             this.connection = connection;
             this.connection.listen(onSensorDataReceived$);
         });
@@ -65,39 +68,33 @@ export class ChanneldataComponent implements OnInit {
             if (typeof data.Payload === "string") {
                 data.Payload = JSON.parse(data.Payload);
             }
-            console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
+            //console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
 
             this.lastData = data.TimeStamp.toString();
+
             if (data.DeviceId === this.dataSource.DeviceId) {
-                for (let graph of this.graphs) {
+                console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
+                //this.publishData(data.TimeStamp, data.Payload, this.properties);
+                this.labels.push(data.TimeStamp);
+                for (let graph of this.charts) {
                     graph.addDatapoint(data);
                 }
             }
             else {
                 console.debug(`Data received for deviceId ${data.DeviceId} and discarded as currently deviceId ${this.dataSource.DeviceId} is selected`);
             }
-
-            // var keys = Object.keys(data.Payload);
-            // let feedIndex = 0;
-            // for (let property of keys) {
-            //     let feed = this.feeds.getValue(property);
-            //     if (data.Payload.hasOwnProperty(property)) {
-            //         feed.push(data.Payload[property]);
-            //     }
-            //     else {
-            //         feed.push(0);
-            //     }
-            //     feedIndex++;
-            // }
-
-            //this.labels.push(data.TimeStamp);
         });
     }
 
+    ngOnDestroy(): void {
+        console.log("SignalR unsubscribed");
+        this._subscription.unsubscribe();
+        this.connection.stop();
+    }
 
     public dataSourceChanged(dataSource: Datasource): void {
         this.dataSource = dataSource;
-        this.loadCharts(false);
+        this.loadCharts();
     }
 
     switchTab(tab: string): void {
@@ -112,17 +109,18 @@ export class ChanneldataComponent implements OnInit {
         }
         return `${value.year}-${date}-${value.day}`;
     }
-    private loadCharts(forceLoad: boolean) {
+    private loadCharts() {
         this.labels = [];
+        this.charts = [];
 
         console.log('voor call: startDate: ' + this.startDate + ', endDate: ' + this.endDate);
         this.sensorDataService.getMostRecent(this.dataSource.DeviceId).subscribe(res => {
             this.lastData = res.TimeStamp.toString();
         });
 
-        let properties: string[];
+
         this.dataTypeService.getById(this.dataSource.DataTypeId).subscribe(dataType => {
-            properties = dataType.Properties.split(',');
+            this.properties = dataType.Properties.split(',');
 
             //loading chart data
             let startDate = this.convertToString(this.fromPicker.model);
@@ -131,38 +129,31 @@ export class ChanneldataComponent implements OnInit {
             this.sensorDataService.getData(this.dataSource.DeviceId, startDate, endDate).subscribe(res => {
 
                 //create the feeds
-                for (let property of properties) {
+                for (let property of this.properties) {
                     this.feeds.setValue(property, []);
                 }
 
                 //push the data on the correct feed
                 for (let item of res) {
                     let payload = JSON.parse(item.Payload);
+                    this.publishData(item.TimeStamp, payload, this.properties);
+                    // let payload = JSON.parse(item.Payload);
 
-                    let feedIndex = 0;
-                    for (let property of properties) {
-                        let feed = this.feeds.getValue(property);
-                        if (payload.hasOwnProperty(property)) {
-                            feed.push(payload[property]);
-                        }
-                        else {
-                            feed.push(0);
-                        }
-                        feedIndex++;
+                    for (let property of this.properties) {
+                        let feed= this.feeds.getValue(property);
+                        let value = payload.hasOwnProperty(property) ? payload[property] : 0;
+                        feed.push(value);
                     }
 
                     this.labels.push(item.TimeStamp);
                 };
-
-                //create the labels
-                this.chartLabels = this.labels;
 
                 //create a graph for each feed
                 const factory = this.componentFactoryResolver.resolveComponentFactory(SensorDataChartComponent);
                 this.dataContainer.clear();
                 this.metadataContainer.clear();
 
-                for (let property of properties) {
+                for (let property of this.properties) {
                     let feed = this.feeds.getValue(property);
                     if (["Voltage", "RSSI"].indexOf(property) > -1) {
                         const ref = this.metadataContainer.createComponent(factory);
@@ -183,18 +174,34 @@ export class ChanneldataComponent implements OnInit {
         });
     }
 
-    private AddGraph(ref: any, key: string, data: any[], labels: any[], deviceId: string): void {
+    private publishData(timestamp: Date, payload: any, properties: string[]): void {
+
+
+        // for (let property of properties) {
+        //     let feed: Series[] = this.feeds.getValue(property);
+        //     let value = payload.hasOwnProperty(property) ? payload[property] : 0;
+        //     if (feed.length == 0) {
+        //         feed.push(new Series(property, []));
+        //     }
+        //     feed[0].data.push(value);
+        // }
+
+        // this.labels.push(timestamp);
+    }
+
+    private AddGraph(ref: any, key: string, data: Series[], labels: any[], deviceId: string): void {
         let instance = (<SensorDataChartComponent>ref.instance);
         instance.feed = key;
-        instance.values = data;
+        instance.values=data;
+        //instance.lineChartData = data;
         instance.lineChartLabels = labels;
         instance.datasource = deviceId;
-        this.graphs.push(instance);
+        this.charts.push(instance);
     }
 
     public refresh(): void {
         this.loading = true;
 
-        this.loadCharts(true);
+        this.loadCharts();
     }
 }

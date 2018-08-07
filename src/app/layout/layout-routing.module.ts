@@ -4,6 +4,7 @@ import { LayoutComponent } from './layout.component';
 import { AddDatasourceComponent } from './sensor-data/add-datasource/add-datasource.component';
 import { SensorDataModule } from './sensor-data/sensor-data.module';
 import { DatasourceManagementComponent } from './sensor-data/datasource-management/datasource-management.component';
+import { DatasourceDetailsComponent } from './sensor-data/datasource-details/datasource-details.component';
 
 const routes: Routes = [
     {
@@ -22,7 +23,8 @@ const routes: Routes = [
             { path: 'blank-page', loadChildren: './blank-page/blank-page.module#BlankPageModule' },
 
             { path: 'adddatasources', component: AddDatasourceComponent },
-            { path: 'managedatasources', component: DatasourceManagementComponent }
+            { path: 'managedatasources', component: DatasourceManagementComponent },
+            { path: 'datasourcedetails/:id', component: DatasourceDetailsComponent }
         ]
     }
 ];

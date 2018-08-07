@@ -1,0 +1,75 @@
+<div class="container">
+  <p class="h4 mb-4">Datasource details</p>
+  <div class="row">
+    <div class="col-md-3">
+      <label>DeviceId</label>
+    </div>
+    <div class="col-md-3" *ngIf="datasource">
+      {{datasource.DeviceId}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Description</label>
+    </div>
+    <div class="col-md-3" *ngIf="datasource">
+      <input class="form-control-plaintext" value="{{datasource.Description}}">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <label>Datatype</label>
+    </div>
+    <div class="col-md-3" *ngIf="datatype">
+      {{datatype.Name}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Fields</label>
+    </div>
+    <div class="col-md-3" *ngIf="datatype">
+      {{datatype.Properties}}
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-3" *ngIf="datasets">
+        <a class="btn btn-info btn-md" (click)="delete()">
+          <span class="fa fa-trash"></span> Delete
+        </a>
+      </div>
+    </div>
+
+  <p class="h4 mb-4">Data</p>
+  <div class="row">
+    <div class="col-md-3">
+      <label>Aantal datasets aanwezig</label>
+    </div>
+    <div class="col-md-3" *ngIf="datasets">
+      {{datasets}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <label>Laatste dataset</label>
+    </div>
+    <div class="col-md-3" *ngIf="datasets">
+      {{lastData}}
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3" *ngIf="datasets">
+      <a class="btn btn-info btn-md" (click)="deleteData()">
+        <span class="fa fa-trash"></span> Delete data
+      </a>
+    </div>
+  </div>
+</div>

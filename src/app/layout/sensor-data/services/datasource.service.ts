@@ -28,6 +28,13 @@ export class DatasourceService {
         let url = `${this.host}${this.baseUrl}/DataSource/?channel=${channelId}`;
         return this.http.get<Datasource[]>(url);
     }
+
+    public getDataSourceById(id: string): Observable<Datasource[]> {
+        console.log('getDataSources: ' + new Date().toString());
+        let url = `${this.host}${this.baseUrl}/DataSource/${id}`;
+        return this.http.get<Datasource[]>(url);
+    }
+
     public getAllDataSources(): Observable<Datasource[]> {
         console.log('getAllDataSources: ' + new Date().toString());
         let url = `${this.host}${this.baseUrl}/DataSource/`;

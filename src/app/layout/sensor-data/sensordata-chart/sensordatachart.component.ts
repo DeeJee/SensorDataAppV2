@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { Series } from './series';
 import { DataModel } from '../../models/datamodel';
 
@@ -22,7 +22,7 @@ import { DataModel } from '../../models/datamodel';
   `
 })
 
-export class SensorDataChartComponent implements OnInit {
+export class SensorDataChartComponent implements OnInit{
   constructor() { }
 
   ngOnInit(): void {
@@ -36,17 +36,19 @@ export class SensorDataChartComponent implements OnInit {
   @Input() public feed: string;
   @Input() public datasource: string;
 
-  @Input() public lineChartData: Series[] = [];
+  public lineChartData: Series[] = [];
   @Input() public lineChartLabels: any[] = [];
 
   public addDatapoint(data: DataModel): void {
-      this.lineChartData = [];
+    let val = data.Payload[this.feed];
+    
+    this.values.push(val);
 
-      let val = data.Payload[this.feed];
-      this.values.push(val);
-      this.lineChartLabels.push(data.TimeStamp);
-
-      this.lineChartData.push(new Series(this.feed, this.values));
+    this.lineChartData=[];
+    this.lineChartData.push(new Series(this.feed,this.values));
+    console.log(`Data added ${data.TimeStamp}: ${val}`);
+    console.info(`${this.feed} Labels: ${this.lineChartLabels.length}`);
+    console.info(`${this.feed} Series: ${this.lineChartData[0].data.length}`);
   }
 
   public lineChartOptions: any = {
