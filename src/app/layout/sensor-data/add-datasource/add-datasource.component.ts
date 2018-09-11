@@ -59,7 +59,7 @@ export class AddDatasourceComponent implements OnInit {
 
   delete(id): void {
     this.sensorDataService.deleteAll(id).subscribe(res => {
-      let toBeDeleted = this.dataSources.filter(f => f.DeviceId === id)[0];
+      let toBeDeleted = this.dataSources.find(f => f.DeviceId === id);
       let index = this.dataSources.indexOf(toBeDeleted);
       this.dataSources.splice(index, 1);
     },

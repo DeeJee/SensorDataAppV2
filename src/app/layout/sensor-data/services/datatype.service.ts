@@ -3,13 +3,17 @@ import { Injectable } from '@angular/core';
 
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { DataType } from '../../models/DataType';
+import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class DataTypeService {
-    constructor(private http: HttpClient) { }
+    host: string;
+    baseUrl: string;
 
-    private host = 'https://iotsensordata.azurewebsites.net';
-   // private host = 'https://localhost:58847';
+    constructor(private http: HttpClient) {
+        this.host = environment.services.sensorDataService.host;
+        this.baseUrl = environment.services.sensorDataService.baseUrl;
+     }
 
     public get(): Observable<DataType[]> {
         let url = this.host + "/api/DataTypes";

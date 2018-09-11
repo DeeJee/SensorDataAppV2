@@ -21,6 +21,10 @@ export const environment = {
     clientId: '1af2a885-6aed-4fbf-8866-51321da47926',
     redirectUri: 'http://localhost:4200',
     ///redirectUri: 'https://sensordataapp.azurewebsites.net',
-    cacheLocation: 'localStorage'
+    cacheLocation: 'localStorage',
+    endpoints:{
+      "https://iotsensordata.azurewebsites.net:443":"b943f1f0-a291-4126-85f6-75a89d735d25",
+      "https://localhost:44374":"b943f1f0-a291-4126-85f6-75a89d735d25",
+    }
   }
 };

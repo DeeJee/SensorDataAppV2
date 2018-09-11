@@ -37,10 +37,10 @@
   <div class="row">
       <div class="col-md-3">
       </div>
-      <div class="col-md-3" *ngIf="datasets">
-        <a class="btn btn-info btn-md" (click)="delete()">
+      <div class="col-md-3">
+        <button class="btn btn-info btn-md" (click)="delete()">
           <span class="fa fa-trash"></span> Delete
-        </a>
+        </button>
       </div>
     </div>
 
@@ -49,7 +49,7 @@
     <div class="col-md-3">
       <label>Aantal datasets aanwezig</label>
     </div>
-    <div class="col-md-3" *ngIf="datasets">
+    <div class="col-md-3" >
       {{datasets}}
     </div>
   </div>
@@ -66,10 +66,10 @@
   <div class="row">
     <div class="col-md-3">
     </div>
-    <div class="col-md-3" *ngIf="datasets">
-      <a class="btn btn-info btn-md" (click)="deleteData()">
+    <div class="col-md-3" >
+      <button class="btn btn-info btn-md" (click)="deleteData()" [disabled]="!datasets" >
         <span class="fa fa-trash"></span> Delete data
-      </a>
+      </button>
     </div>
   </div>
 </div>

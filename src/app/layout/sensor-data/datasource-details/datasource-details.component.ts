@@ -42,9 +42,15 @@ export class DatasourceDetailsComponent implements OnInit {
         this.sensordataService.getMostRecent(this.id).subscribe(res => {
           this.lastData = res.TimeStamp;
           this.fields = res.Payload.Properties;
+        }, (err: HttpErrorResponse) => {
+          if(err.status==404){
+            this.datasets=0;
+          }
+          console.log("status code: " + err.status);
         });
       }, (err: HttpErrorResponse) => {
-        console.log(err.error.Message);
+        //console.log("status code: " + err.status);
+        console.log(err);
       }
       );
 

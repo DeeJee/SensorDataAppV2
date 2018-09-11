@@ -2,3 +2,5 @@
     height: 10px;
     background-color: red;
 }
+
+.col-aligncenter{float: none;margin: 0 auto;}

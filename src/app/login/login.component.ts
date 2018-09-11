@@ -15,10 +15,14 @@ export class LoginComponent implements OnInit {
         private adalService: AdalService) { }
 
     ngOnInit() {
-        //this.adalService.login();
+        this.adalService.login();
     }
 
     onLoggedin() {
         this.adalService.login();
+    }
+
+    logOut(){
+        this.adalService.logOut();
     }
 }

@@ -7,8 +7,10 @@ import { DataModel } from '../../models/datamodel';
   selector: 'sensorDataChart',
   template: `
   <div style="display: block;">
-
-    <canvas id="myChart" baseChart 
+    <div *ngIf="loading">
+      <app-loading-spinner [(show)]="loading" message="loading"></app-loading-spinner>
+    </div>
+    <canvas *ngIf="!loading" id="myChart" baseChart 
                 [datasets]="lineChartData"
                 [labels]="lineChartLabels"
                 [options]="lineChartOptions"
@@ -31,7 +33,7 @@ export class SensorDataChartComponent implements OnInit{
 
 
   errorMessages: any;
-  public loading: boolean;
+  @Input() public loading: boolean;
   @Input() public values: any[];
   @Input() public feed: string;
   @Input() public datasource: string;

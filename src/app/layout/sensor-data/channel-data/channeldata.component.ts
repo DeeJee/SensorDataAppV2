@@ -37,10 +37,12 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
     @Input() public channel: number;
     @ViewChild('dataCharts', { read: ViewContainerRef }) dataContainer;
     @ViewChild('metadataCharts', { read: ViewContainerRef }) metadataContainer;
-    @ViewChild('fromPicker', { read: SdDatePickerComponent }) fromPicker: SdDatePickerComponent;
+    @ViewChild('fromPicker', { read: SdDatePickerComponent, }) fromPicker: SdDatePickerComponent;
     @ViewChild('toPicker', { read: SdDatePickerComponent }) toPicker: SdDatePickerComponent;
     private connection: ISignalRConnection;
     private _subscription: Subscription;
+
+    //dialogRef: MatDialogRef<CreateDataTypeComponent>;
 
     constructor(
         private sensorDataService: SensorDataService,
@@ -70,11 +72,9 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
             }
             //console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
 
-            this.lastData = data.TimeStamp.toString();
-
             if (data.DeviceId === this.dataSource.DeviceId) {
                 console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
-                //this.publishData(data.TimeStamp, data.Payload, this.properties);
+                this.lastData = data.TimeStamp.toString();
                 this.labels.push(data.TimeStamp);
                 for (let graph of this.charts) {
                     graph.addDatapoint(data);
@@ -103,13 +103,32 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
 
     private convertToString(value: NgbDateStruct): string {
         if (!value) return null;
-        let date = value.month.toString();
-        if (date.length === 1) {
-            date = `0${date}`;
+        let month = value.month.toString();
+        if (month.length === 1) {
+            month = `0${month}`;
         }
-        return `${value.year}-${date}-${value.day}`;
+
+        let day = value.day.toString();
+        if (day.length === 1) {
+            day = `0${day}`;
+        }
+        return `${value.year}-${month}-${day}`;
     }
     private loadCharts() {
+
+        // this.dialogRef = this.dialog.open(CreateDataTypeComponent,
+        //     {
+        //       data: { datasource: ds, title: "aap" },
+        //       //   position: {top: '-100', left: '-100'},
+        //       width: "600px"
+        //     });
+        //   this.dialogRef.afterClosed().subscribe((res) => {
+        //     if (res) {
+        //       this.loadDataTypes();
+        //     }
+        //   });
+
+
         this.labels = [];
         this.charts = [];
 
@@ -200,6 +219,11 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
     }
 
     public refresh(): void {
+
+        for(let chart of this.charts){
+            chart.loading=true;
+        }
+
         this.loading = true;
 
         this.loadCharts();

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,7 +14,9 @@ import { AdalService } from 'adal-angular4/adal.service';
 import { SignalRModule } from 'ng2-signalr';
 import { SignalRConfiguration } from 'ng2-signalr';
 import { environment } from '../environments/environment.prod';
-
+//import { AuthInterceptor } from './shared/interceptors/auth.intercepotor';
+import {AdalInterceptor} from 'adal-angular4';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -60,7 +62,8 @@ export function createConfig(): SignalRConfiguration {
     declarations: [AppComponent],
     providers: [
         AuthGuard,
-        AdalService
+        AdalService,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi:true }, 
     ],
     bootstrap: [AppComponent]
 })
