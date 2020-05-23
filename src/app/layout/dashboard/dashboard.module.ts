@@ -16,8 +16,8 @@ import { NotificationsService } from './notifications/notifications.service';
 @NgModule({
     imports: [
         CommonModule,
-        NgbCarouselModule.forRoot(),
-        NgbAlertModule.forRoot(),
+        NgbCarouselModule,
+        NgbAlertModule,
         DashboardRoutingModule,
         StatModule        
     ],

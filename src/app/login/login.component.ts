@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
-import { AdalService } from 'adal-angular4/adal.service';
+import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
+//import { AdalService } from 'adal-angular4/adal.service';
 
 @Component({
     selector: 'app-login',
@@ -12,7 +13,7 @@ import { AdalService } from 'adal-angular4/adal.service';
 export class LoginComponent implements OnInit {
     constructor(
         public router: Router,
-        private adalService: AdalService) { }
+        private adalService: MsAdalAngular6Service) { }
 
     ngOnInit() {
         this.adalService.login();
@@ -23,6 +24,6 @@ export class LoginComponent implements OnInit {
     }
 
     logOut(){
-        this.adalService.logOut();
+        this.adalService.logout();
     }
 }

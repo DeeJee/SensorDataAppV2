@@ -17,8 +17,6 @@ import {
     PopOverComponent,
     ProgressbarComponent,
     TabsComponent,
-    RatingComponent,
-    TooltipComponent,
     TimepickerComponent,
     DateRangePickerComponent
 } from './components';
@@ -30,7 +28,7 @@ import { PageHeaderModule } from '../../shared';
         BsComponentRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        NgbModule.forRoot(),
+        NgbModule,
         PageHeaderModule
     ],
     declarations: [
@@ -46,8 +44,6 @@ import { PageHeaderModule } from '../../shared';
         PopOverComponent,
         ProgressbarComponent,
         TabsComponent,
-        RatingComponent,
-        TooltipComponent,
         TimepickerComponent,
         DateRangePickerComponent,
         SdDatePickerComponent

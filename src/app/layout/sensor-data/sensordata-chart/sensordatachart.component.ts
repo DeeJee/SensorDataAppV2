@@ -41,14 +41,14 @@ export class SensorDataChartComponent implements OnInit{
   public lineChartData: Series[] = [];
   @Input() public lineChartLabels: any[] = [];
 
-  public addDatapoint(data: DataModel): void {
-    let val = data.Payload[this.feed];
+  public addDatapoint(data): void {
+    let val = data.payload[this.feed];
     
     this.values.push(val);
 
     this.lineChartData=[];
     this.lineChartData.push(new Series(this.feed,this.values));
-    console.log(`Data added ${data.TimeStamp}: ${val}`);
+    console.log(`Data added ${data.timeStamp}: ${val}`);
     console.info(`${this.feed} Labels: ${this.lineChartLabels.length}`);
     console.info(`${this.feed} Series: ${this.lineChartData[0].data.length}`);
   }

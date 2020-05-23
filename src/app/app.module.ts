@@ -8,15 +8,11 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './shared';
-import { AdalService } from 'adal-angular4/adal.service';
 
-import { SignalRModule } from 'ng2-signalr';
-import { SignalRConfiguration } from 'ng2-signalr';
 import { environment } from '../environments/environment.prod';
-//import { AuthInterceptor } from './shared/interceptors/auth.intercepotor';
-import {AdalInterceptor} from 'adal-angular4';
-import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { MsAdalAngular6Module, AuthenticationGuard } from 'microsoft-adal-angular6';
+import { InsertAuthTokenInterceptor } from './shared/interceptors/insert-auth-token-interceptor';
+
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -29,23 +25,9 @@ export const createTranslateLoader = (http: HttpClient) => {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 };
 
-export function createConfig(): SignalRConfiguration {
-    const c = new SignalRConfiguration();
-    c.hubName = 'SensorDataHub';
-    c.url = 'https://iotsensordata.azurewebsites.net:443';
-    //c.url = 'https://localhost:44374';
-    c.logging = false;
-
-    // >= v5.0.0
-    c.executeEventsInZone = true; // optional, default is true
-    c.executeErrorsInZone = false; // optional, default is false
-    c.executeStatusChangeInZone = true; // optional, default is true
-    return c;
-}
-
 @NgModule({
     imports: [
-        SignalRModule.forRoot(createConfig),
+        MsAdalAngular6Module.forRoot(environment.adalConfig),
         CommonModule,
         BrowserModule,
         BrowserAnimationsModule,
@@ -61,9 +43,8 @@ export function createConfig(): SignalRConfiguration {
     ],
     declarations: [AppComponent],
     providers: [
-        AuthGuard,
-        AdalService,
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi:true }, 
+        AuthenticationGuard,
+        { provide: HTTP_INTERCEPTORS, useClass: InsertAuthTokenInterceptor , multi:true }, 
     ],
     bootstrap: [AppComponent]
 })

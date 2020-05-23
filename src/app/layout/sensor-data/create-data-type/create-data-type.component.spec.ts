@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateDataTypeComponent } from './create-data-type.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatDialogRef } from '@angular/material';
+import { FakeMatDialogRef } from '../../../shared/fakes/FakeMatDialogRef';
 
 describe('CreateDataTypeComponent', () => {
   let component: CreateDataTypeComponent;
@@ -8,9 +11,13 @@ describe('CreateDataTypeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateDataTypeComponent ]
+      imports: [HttpClientTestingModule],
+      declarations: [CreateDataTypeComponent],
+      providers: [
+        { provide: MatDialogRef, useClass: FakeMatDialogRef }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

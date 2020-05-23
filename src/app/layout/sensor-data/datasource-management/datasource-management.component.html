@@ -30,18 +30,18 @@
       </div>
     </div>
 
-    <div class="row" *ngFor="let ds of dataSources">
-      <div class="col-md-1">
+    <div class="row" *ngFor="let ds of dataSources">     
+      <div class="col-md-2">
         <a class="btn btn-info btn-md" (click)="delete(ds.Id)">
-          <span class="fa fa-trash-o"></span> Trash
+          <span class="fa fa-trash-o"></span>
         </a>
-      </div>
-      <div class="col-md-1">
+        &nbsp;
         <a class="btn btn-info btn-md" (click)="edit(ds.DeviceId)">
-          <span class="fa fa-edit"></span> Edit
-        </a>
+            <span class="fa fa-edit"></span>
+          </a>
       </div>
-      <div class="col-md-3">
+  
+      <div class="col-md-1">
         <label class="form-control">{{ds.DeviceId}}</label>
       </div>
       <div class="col-md-3">
@@ -52,6 +52,11 @@
       <div class="col-md-4">
         <input type="text" [(ngModel)]="ds.Description" class="form-control">
       </div>
+      <div class="row">
+          <div class="col-md-2">
+            <img [src]="ds.image" style="max-width:50px;max-height:50px" *ngIf="ds.image">
+          </div>
+        </div>
     </div>
   </div>
    

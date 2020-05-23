@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NotificationModel } from '../../models/NotificationModel';
 import { NotificationsService } from './notifications.service';
-
-import { SignalR, BroadcastEventListener, ISignalRConnection } from 'ng2-signalr';
-import { Subscription } from 'rxjs';
+import * as signalR from '@aspnet/signalR';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   providers: [NotificationsService],
@@ -13,40 +12,37 @@ import { Subscription } from 'rxjs';
 })
 export class NotificationsComponent implements OnInit {
 
-  constructor(private notificationsService: NotificationsService,
-    private _signalR: SignalR) { }
+  constructor(private notificationsService: NotificationsService) { }
 
   notifications: NotificationModel[];
 
-  private _connection: ISignalRConnection;
-  private _subscription: Subscription;
+  private hubConnection: signalR.HubConnection;
 
   ngOnInit() {
+    this.hubConnection = new signalR.HubConnectionBuilder()
+      .withUrl(`${environment.services.sensorDataService.host}/sensordatahub`)
+      .build();
+
+    this.hubConnection.start()
+      .then(() => console.log("Connection started"))
+      .catch(err => console.log('Error while starting connection: ' + err));
+
+    this.hubConnection.on('notification', (notification: NotificationModel) => {
+      this.notifications.splice(0, 0, notification);
+    })
+
     this.notificationsService.Get(10).subscribe(res => {
       this.notifications = res;
-    }, err => null);
-
-    let onNotificationReceived$ = new BroadcastEventListener<NotificationModel>('NotificationReceived');
-    this._signalR.connect().then(c => {
-      this._connection = c;
-      // register the listener
-      this._connection.listen(onNotificationReceived$);
+    }, err => {
+      console.log(err)
     });
-
-    // subscribe to event
-    this._subscription = onNotificationReceived$.subscribe((notification: NotificationModel) => {
-      console.log(`${notification.LogLevel}:${notification.Text}`);
-      this.notifications.splice(0, 0, notification);
-    });
-
   }
-
 
   showAll(): void {
     console.log("showAll clicked");
     this.notificationsService.GetAll().subscribe(res => {
       this.notifications = res;
-    }, err => null);
+    }, err => console.log(err));
   }
 
   delete(id: number): void {
@@ -59,6 +55,6 @@ export class NotificationsComponent implements OnInit {
         }
       })
       this.notifications.splice(index, 1);
-    }, err => null);
+    }, err => console.log(err));
   }
 }

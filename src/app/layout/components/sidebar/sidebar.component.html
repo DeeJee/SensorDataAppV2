@@ -1,43 +1,43 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <div class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
+            <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard'  }}
         </a>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('channels')">
-                <span><i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Channels' | translate }}</span>
+                <span><i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Channels' }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'channels'">
                 <ul class="submenu">
                     <li>
-                        <a href="javascript:void(0)" routerLink="/channeldata/59"><span>{{ 'Light intensity' | translate }}</span></a>
+                        <a href="javascript:void(0)" routerLink="/channeldata/59"><span>{{ 'Light intensity' }}</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" routerLink="/channeldata/60"><span>{{ 'Temperature & Humidity' | translate }}</span></a>
+                        <a href="javascript:void(0)" routerLink="/channeldata/60"><span>{{ 'Temperature & Humidity' }}</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" routerLink="/channeldata/61"><span>{{ 'Plant watering' | translate }}</span></a>
+                        <a href="javascript:void(0)" routerLink="/channeldata/61"><span>{{ 'Plant watering' }}</span></a>
                     </li>
                 </ul>
             </li>
         </div>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('datasources')">
-                <span><i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Datasources' | translate }}</span>
+                <span><i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Datasources' }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'datasources'">
                 <ul class="submenu">
                     <li>
-                        <a href="javascript:void(0)" routerLink="/adddatasources"><span>{{ 'Opvoeren' | translate }}</span></a>
+                        <a href="javascript:void(0)" routerLink="/adddatasources"><span>{{ 'Opvoeren' }}</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" routerLink="/managedatasources"><span>{{ 'Beheren' | translate }}</span></a>
+                        <a href="javascript:void(0)" routerLink="/managedatasources"><span>{{ 'Beheren' }}</span></a>
                     </li>                    
                 </ul>
             </li>
         </div>
         <a class="list-group-item more-themes" href="http://www.strapui.com/" >
-            {{ 'More Theme' | translate }}
+            {{ 'More Theme' }}
         </a>
         <div class="header-fields">
             <a (click)="rltAndLtr()" class="list-group-item">
@@ -45,43 +45,43 @@
             </a>
             <div class="nested-menu">
                 <a class="list-group-item" (click)="addExpandClass('languages')">
-                    <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' | translate }} <b class="caret"></b></span>
+                    <span><i class="fa fa-language"></i>&nbsp; {{ 'Language' }} <b class="caret"></b></span>
                 </a>
                 <li class="nested" [class.expand]="showMenu === 'languages'">
                     <ul class="submenu">
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('en')">
-                                {{ 'English' | translate }}
+                                {{ 'English' }}
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('fr')">
-                                {{ 'French' | translate }}
+                                {{ 'French' }}
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('ur')">
-                                {{ 'Urdu' | translate }}
+                                {{ 'Urdu' }}
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('es')">
-                                {{ 'Spanish' | translate }}
+                                {{ 'Spanish' }}
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('it')">
-                                {{ 'Italian' | translate }}
+                                {{ 'Italian' }}
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('fa')">
-                                {{ 'Farsi' | translate }}
+                                {{ 'Farsi' }}
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" (click)="changeLang('de')">
-                                {{ 'German' | translate }}
+                                {{ 'German' }}
                             </a>
                         </li>
                     </ul>
@@ -95,22 +95,22 @@
                     <ul class="submenu">
                         <li>
                             <a href="javascript:void(0)">
-                                <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</span>
+                                <span><i class="fa fa-fw fa-user"></i> {{ 'Profile' }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)">
-                                <span><i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' | translate }}</span>
+                                <span><i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="javascript:void(0)">
-                                <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</span>
+                                <span><i class="fa fa-fw fa-gear"></i> {{ 'Settings' }}</span>
                             </a>
                         </li>
                         <li>
                             <a [routerLink]="['/login']" (click)="onLoggedout()">
-                                <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }}</span>
+                                <span><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' }}</span>
                             </a>
                         </li>
                     </ul>

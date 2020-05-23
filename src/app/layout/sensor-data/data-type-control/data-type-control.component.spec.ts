@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DataTypeControlComponent } from './data-type-control.component';
+import { FormsModule } from '@angular/forms';
 
 describe('DataTypeControlComponent', () => {
   let component: DataTypeControlComponent;
@@ -8,9 +9,10 @@ describe('DataTypeControlComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataTypeControlComponent ]
+      imports: [FormsModule],
+      declarations: [DataTypeControlComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

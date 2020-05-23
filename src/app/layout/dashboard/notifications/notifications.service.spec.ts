@@ -1,15 +1,24 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 
 import { NotificationsService } from './notifications.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('NotificationsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [NotificationsService]
+      imports: [
+        HttpClientModule,
+        HttpClientTestingModule],
+      providers: [
+        NotificationsService,
+      ]
     });
   });
 
-  it('should be created', inject([NotificationsService], (service: NotificationsService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(`should create`, async(inject([NotificationsService, HttpTestingController],
+    (service: NotificationsService, backend: HttpTestingController) => {
+      expect(service).toBeTruthy();
+    })));
+
 });

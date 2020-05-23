@@ -27,8 +27,7 @@
             ],
             "scripts": [
               "node_modules/chart.js/dist/Chart.js",
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/signalr/jquery.signalR.js"
+              "node_modules/jquery/dist/jquery.min.js"              
             ]
           },
           "configurations": {

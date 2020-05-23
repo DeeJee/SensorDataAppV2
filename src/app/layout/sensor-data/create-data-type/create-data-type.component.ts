@@ -1,5 +1,5 @@
 import { Component, Inject, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CachingSensorDataService } from '../services/cachingsensordata.service';
 import { QuerystringBuilderService } from '../services/querystringbuilder.service';
 import { DataTypeService } from '../services/datatype.service';

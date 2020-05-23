@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { AdalService } from 'adal-angular4/adal.service';
+import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
+//import { AdalService } from 'adal-angular4/adal.service';
 
 @Component({
     selector: 'app-header',
@@ -11,13 +11,7 @@ import { AdalService } from 'adal-angular4/adal.service';
 export class HeaderComponent implements OnInit {
     pushRightClass: string = 'push-right';
 
-    constructor(private translate: TranslateService, public router: Router, private adalService:AdalService) {
-
-        this.translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa', 'de', 'zh-CHS']);
-        this.translate.setDefaultLang('en');
-        const browserLang = this.translate.getBrowserLang();
-        this.translate.use(browserLang.match(/en|fr|ur|es|it|fa|de|zh-CHS/) ? browserLang : 'en');
-
+    constructor( public router: Router, private adalService:MsAdalAngular6Service) {
         this.router.events.subscribe(val => {
             if (
                 val instanceof NavigationEnd &&
@@ -54,6 +48,5 @@ export class HeaderComponent implements OnInit {
     }
 
     changeLang(language: string) {
-        this.translate.use(language);
     }
 }

@@ -6,7 +6,7 @@ import { environment } from '../../../../environments/environment';
 
 @Injectable()
 export class NotificationsService {
-  private host = 'https://iotsensordata.azurewebsites.net';
+  private host;
   baseUrl: string;
 
   constructor(

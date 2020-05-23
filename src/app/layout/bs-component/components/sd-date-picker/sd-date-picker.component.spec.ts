@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DatePickerComponent } from '..';
 
-import { DatePickerComponent } from './sd-date-picker.component';
 
 describe('DatePickerComponent', () => {
   let component: DatePickerComponent;

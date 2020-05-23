@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { DatasourceService } from '../services/datasource.service';
 import { DataTypeService } from '../services/datatype.service';
 import { QuerystringBuilderService } from '../services/querystringbuilder.service';
@@ -102,6 +102,9 @@ export class AddDatasourceComponent implements OnInit {
     for (let index = 0; index < this.dataSources.length; index++) {
       let datasource = this.dataSources[index];
       if (datasource.DataTypeId && datasource.DataTypeId > 0) {
+        //TODO: onderstaande regel verwijderen. Deze is nu nodig omdat DataTypeId tijdens
+        // de modelbinding wordt geconverteerd naar een string. WTF!!
+        datasource.DataTypeId=+datasource.DataTypeId;
         console.debug(datasource.DeviceId + ", " + datasource.Description);
         this.datasourceService.addDatasource(datasource).subscribe(
           ds => null,

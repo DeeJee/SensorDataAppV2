@@ -7,13 +7,14 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
+//import { AdalService } from 'adal-angular4';
 
 @NgModule({
     imports: [
         CommonModule,
         LayoutRoutingModule,
         TranslateModule,
-        NgbDropdownModule.forRoot()
+        NgbDropdownModule
     ],
     declarations: [
         LayoutComponent,
@@ -21,8 +22,6 @@ import { HeaderComponent } from './components/header/header.component';
         HeaderComponent
     ],
     providers:[
-
-
     ]
 })
 export class LayoutModule { }

@@ -4,16 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DataTypeService } from '../services/datatype.service';
 import { routerTransition } from '../../../router.animations';
 import { Datasource } from '../../models/datasource';
-import { Subscription } from 'rxjs';
 import * as Collections from 'typescript-collections';
 import { SensorDataChartComponent } from '../sensordata-chart/sensordatachart.component';
 import { SdDatePickerComponent } from '../../bs-component/components';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { SignalR, ISignalRConnection, BroadcastEventListener } from 'ng2-signalr';
-import { DataModel } from '../../models/datamodel';
+import * as signalR from '@aspnet/signalR';
 import { SensorDataService } from '../services/sensordata.service';
-import { forEach } from '../../../../../node_modules/typescript-collections/dist/lib/arrays';
 import { Series } from '../sensordata-chart/series';
+import { environment } from '../../../../environments/environment';
 
 @Component({
     selector: 'app-channeldata',
@@ -22,7 +20,9 @@ import { Series } from '../sensordata-chart/series';
     animations: [routerTransition()]
 })
 export class ChanneldataComponent implements OnInit, OnDestroy {
-
+    noImageFound: string = "assets/images/noimage.png";
+    imageToShow: any = this.noImageFound;
+    isImageLoading: boolean;
     tab: string;
     loading: boolean;
     startDate: any;
@@ -39,18 +39,30 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
     @ViewChild('metadataCharts', { read: ViewContainerRef }) metadataContainer;
     @ViewChild('fromPicker', { read: SdDatePickerComponent, }) fromPicker: SdDatePickerComponent;
     @ViewChild('toPicker', { read: SdDatePickerComponent }) toPicker: SdDatePickerComponent;
-    private connection: ISignalRConnection;
-    private _subscription: Subscription;
+    private hubConnection: signalR.HubConnection;
 
     //dialogRef: MatDialogRef<CreateDataTypeComponent>;
 
     constructor(
+        private datasourceService: DatasourceService,
         private sensorDataService: SensorDataService,
         private activatedRoute: ActivatedRoute,
         private componentFactoryResolver: ComponentFactoryResolver,
         private dataTypeService: DataTypeService,
-        private _signalR: SignalR) {
+    ) {
         this.charts = [];
+    }
+
+
+    private createImageFromBlob(image: Blob) {
+        let reader = new FileReader();
+        reader.addEventListener("load", () => {
+            this.imageToShow = reader.result;
+        }, false);
+
+        if (image) {
+            reader.readAsDataURL(image);
+        }
     }
 
     ngOnInit() {
@@ -60,41 +72,57 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
             this.channel = params['id'];
         });
 
-        let onSensorDataReceived$ = new BroadcastEventListener<DataModel>('SensorDataReceived');
-        this._signalR.connect({}).then(connection => {
-            this.connection = connection;
-            this.connection.listen(onSensorDataReceived$);
-        });
+        this.hubConnection = new signalR.HubConnectionBuilder()
+            .withUrl(`${environment.services.sensorDataService.host}/sensordatahub`)
+            .build();
 
-        this._subscription = onSensorDataReceived$.subscribe((data: DataModel) => {
-            if (typeof data.Payload === "string") {
-                data.Payload = JSON.parse(data.Payload);
+        this.hubConnection.start()
+            .then(() => console.log("Connection started"))
+            .catch(err => console.log('Error while starting connection: ' + err));
+
+        this.hubConnection.on('SensorData', (data) => {
+            if (typeof data.payload === "string") {
+                data.payload = JSON.parse(data.payload);
             }
-            //console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
+            console.log(`${data.deviceId}:${JSON.stringify(data.payload)}`);
 
-            if (data.DeviceId === this.dataSource.DeviceId) {
-                console.log(`${data.DeviceId}:${JSON.stringify(data.Payload)}`);
-                this.lastData = data.TimeStamp.toString();
-                this.labels.push(data.TimeStamp);
+            if (data.deviceId === this.dataSource.DeviceId) {
+                console.log(`${data.deviceId}:${JSON.stringify(data.payload)}`);
+                this.lastData = data.timeStamp.toString();
+                this.labels.push(data.timeStamp);
                 for (let graph of this.charts) {
                     graph.addDatapoint(data);
                 }
             }
             else {
-                console.debug(`Data received for deviceId ${data.DeviceId} and discarded as currently deviceId ${this.dataSource.DeviceId} is selected`);
+                console.debug(`Data received for deviceId ${data.deviceId} and discarded as currently deviceId ${this.dataSource.DeviceId} is selected`);
             }
-        });
+        })
+
     }
 
     ngOnDestroy(): void {
         console.log("SignalR unsubscribed");
-        this._subscription.unsubscribe();
-        this.connection.stop();
+        this.hubConnection.stop()
     }
 
     public dataSourceChanged(dataSource: Datasource): void {
         this.dataSource = dataSource;
         this.loadCharts();
+
+        this.datasourceService.getDataSourceImageById(this.dataSource.DeviceId).subscribe(
+            data => {
+                this.createImageFromBlob(data);
+                this.isImageLoading = false;
+            },
+            error => {
+                this.isImageLoading = false;
+                this.imageToShow = this.noImageFound;
+                if (error.status != 404) {
+                    console.log(error);
+                }
+            }
+        );
     }
 
     switchTab(tab: string): void {
@@ -159,7 +187,7 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
                     // let payload = JSON.parse(item.Payload);
 
                     for (let property of this.properties) {
-                        let feed= this.feeds.getValue(property);
+                        let feed = this.feeds.getValue(property);
                         let value = payload.hasOwnProperty(property) ? payload[property] : 0;
                         feed.push(value);
                     }
@@ -184,7 +212,9 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
                     }
                 }
                 this.loading = false;
-            }, err => null,
+            }, err => {
+                return null;
+            },
                 () => {
                     console.log('channel data loaded');
                     //this.showSpinner = false;
@@ -211,7 +241,7 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
     private AddGraph(ref: any, key: string, data: Series[], labels: any[], deviceId: string): void {
         let instance = (<SensorDataChartComponent>ref.instance);
         instance.feed = key;
-        instance.values=data;
+        instance.values = data;
         //instance.lineChartData = data;
         instance.lineChartLabels = labels;
         instance.datasource = deviceId;
@@ -220,8 +250,8 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
 
     public refresh(): void {
 
-        for(let chart of this.charts){
-            chart.loading=true;
+        for (let chart of this.charts) {
+            chart.loading = true;
         }
 
         this.loading = true;

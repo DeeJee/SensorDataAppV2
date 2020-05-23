@@ -1,4 +1,6 @@
 export class Datasource{
+
+    public image:any;
     constructor(
         public Id: number,
         public DeviceId:string,

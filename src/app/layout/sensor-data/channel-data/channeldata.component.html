@@ -3,6 +3,14 @@
 
     <div class="panel-body">
         <div class="row">
+            <div class="col-md-12" >
+                    <img [src]="imageToShow" style="height:250px;width:250px" alt="Place image title" *ngIf="!isImageLoading; else noImageFound">
+                    <ng-template #noImageFound>
+                      <img src="assets/images/noimage.png" style="height:250px;width:250px" alt="Fallbackimage">
+                    </ng-template>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-3">
                 Bron
             </div>
@@ -17,7 +25,8 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <dataSourceSelector [channel]="channel"  (dataSourceChange)="dataSourceChanged($event)"></dataSourceSelector>
+                <dataSourceSelector [channel]="channel" (dataSourceChange)="dataSourceChanged($event)">
+                </dataSourceSelector>
             </div>
             <div class="col-md-2">
                 <sd-date-picker #fromPicker></sd-date-picker>
@@ -53,7 +62,8 @@
                             <a class="nav-link" [class.active]="tab=='data'" (click)="switchTab('data')">Data</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" [class.active]="tab=='metadata'" (click)="switchTab('metadata')">Metadata</a>
+                            <a class="nav-link" [class.active]="tab=='metadata'"
+                                (click)="switchTab('metadata')">Metadata</a>
                         </li>
                     </ul>
 

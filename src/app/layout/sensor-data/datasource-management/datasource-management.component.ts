@@ -15,11 +15,12 @@ import { Router } from '../../../../../node_modules/@angular/router';
 export class DatasourceManagementComponent implements OnInit {
   dataSources: Datasource[] = [];
   dataSourceTypes: Channel[] = [];
+  noImageFound: string = "assets/images/noimage.png";
 
   ngOnInit(): void {
     this.loadData();
   }
-  constructor(private datasourceService: DatasourceService, private router :Router) { }
+  constructor(private datasourceService: DatasourceService, private router: Router) { }
 
   loadData(): void {
     this.datasourceService.getDataSourceTypes().subscribe(res => {
@@ -33,6 +34,12 @@ export class DatasourceManagementComponent implements OnInit {
       for (let index = 0; index < res.length; index++) {
         let item = res[index];
         this.dataSources.push(item);
+        this.datasourceService.getDataSourceImageById(item.DeviceId).subscribe(data => {
+          this.createImageFromBlob(data, item);
+        },
+          err => {
+            item.image = this.noImageFound;
+          })
       }
     }, err => null,
       () => {
@@ -63,13 +70,31 @@ export class DatasourceManagementComponent implements OnInit {
       let datasource = this.dataSources[index];
       if (datasource.DataTypeId && datasource.DataTypeId > 0) {
         console.debug(datasource.DeviceId + ", " + datasource.Description);
-        this.datasourceService.updateDatasource(datasource).subscribe(
+        
+        let ds = new Datasource(datasource.Id, datasource.DeviceId, datasource.ChannelId, datasource.Description, datasource.DataTypeId);
+        this.datasourceService.updateDatasource(ds).subscribe(
           ds => null,
           err => null,
           () => {
             console.debug("Datasource added: " + datasource.DeviceId);
           });
       }
+    }
+  }
+
+  loadImage(deviceId: string) {
+    return `https://localhost:44374/api/DataSource/${deviceId}/Images`;
+
+  }
+
+  private createImageFromBlob(image: Blob, ds: Datasource) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      ds.image = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
     }
   }
 }

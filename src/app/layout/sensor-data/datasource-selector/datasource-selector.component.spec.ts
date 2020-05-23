@@ -1,20 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DatasourceSelectorComponent } from './datasource-selector.component';
+import { DataSourceSelectorComponent } from './datasource-selector.component';
+import { DatasourceService } from '../services/datasource.service';
+import { FakeDatasourceService } from '../../../shared/fakes/FakeDatasourceService';
 
 describe('DatasourceSelectorComponent', () => {
-  let component: DatasourceSelectorComponent;
-  let fixture: ComponentFixture<DatasourceSelectorComponent>;
+  let component: DataSourceSelectorComponent;
+  let fixture: ComponentFixture<DataSourceSelectorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DatasourceSelectorComponent ]
+      declarations: [DataSourceSelectorComponent],
+      providers: [
+        { provide: DatasourceService, useClass: FakeDatasourceService }
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DatasourceSelectorComponent);
+    fixture = TestBed.createComponent(DataSourceSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

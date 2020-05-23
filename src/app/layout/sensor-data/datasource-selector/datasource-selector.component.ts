@@ -2,8 +2,6 @@ import { Component, OnInit, EventEmitter, Output, Input, OnChanges, SimpleChange
 import { SensorDataService } from '../services/sensordata.service';
 import { Datasource } from '../../models/datasource';
 import { DatasourceService } from '../services/datasource.service';
-import { IfStmt } from '../../../../../node_modules/@angular/compiler';
-import { EMAIL_VALIDATOR } from '../../../../../node_modules/@angular/forms/src/directives/validators';
 
 @Component({
   providers: [SensorDataService],

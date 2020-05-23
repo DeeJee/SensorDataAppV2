@@ -35,6 +35,12 @@ export class DatasourceService {
         return this.http.get<Datasource[]>(url);
     }
 
+    public getDataSourceImageById(id: string): Observable<Blob> {
+        console.log('getDataSources: ' + new Date().toString());
+        let url = `${this.host}${this.baseUrl}/DataSource/${id}/Images`;
+        return this.http.get(url, { responseType: 'blob' });
+    }
+
     public getAllDataSources(): Observable<Datasource[]> {
         console.log('getAllDataSources: ' + new Date().toString());
         let url = `${this.host}${this.baseUrl}/DataSource/`;

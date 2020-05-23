@@ -8,12 +8,14 @@ import { AddDatasourceComponent } from "./add-datasource/add-datasource.componen
 import { DataTypeControlComponent } from "./data-type-control/data-type-control.component";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { MatDialog, MatDialogModule } from "@angular/material";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { DatasourceManagementComponent } from "./datasource-management/datasource-management.component";
 import { CreateDataTypeComponent } from "./create-data-type/create-data-type.component";
 import { DatasourceDetailsComponent } from './datasource-details/datasource-details.component';
 import { LoadingSpinnerModule } from "../../shared/modules/loading-spinner/loading-spinner.module";
+import { UploadImageComponent } from './upload-image/upload-image.component';
+//import { AdalService } from "adal-angular4";
 
 
 @NgModule({
@@ -21,7 +23,7 @@ import { LoadingSpinnerModule } from "../../shared/modules/loading-spinner/loadi
         CommonModule,
         FormsModule,
         OverlayModule,
-        MatDialogModule       ,
+        MatDialogModule,
         LoadingSpinnerModule
     ],
     declarations:[
@@ -29,7 +31,8 @@ import { LoadingSpinnerModule } from "../../shared/modules/loading-spinner/loadi
         DatasourceManagementComponent,
         DataTypeControlComponent,
         CreateDataTypeComponent,
-        DatasourceDetailsComponent
+        DatasourceDetailsComponent,
+        UploadImageComponent
     ],
     exports: [],
     providers:[
@@ -37,7 +40,7 @@ import { LoadingSpinnerModule } from "../../shared/modules/loading-spinner/loadi
         SensorDataService,
         DataTypeService,
         DatasourceService,
-        MatDialog
+        MatDialog        
     ],
     entryComponents:[
         CreateDataTypeComponent
