@@ -25,12 +25,16 @@ import { DataModel } from '../../models/datamodel';
 })
 
 export class SensorDataChartComponent implements OnInit{
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit(): void {
     this.lineChartData.push(new Series(this.feed, this.values));
   }
 
+  ngOnDestroy():void{
+    console.log(`Destroyed deviceId: ${this.datasource} feed: ${this.feed}`);             
+  }
 
   errorMessages: any;
   @Input() public loading: boolean;
@@ -46,8 +50,8 @@ export class SensorDataChartComponent implements OnInit{
     
     this.values.push(val);
 
-    this.lineChartData=[];
-    this.lineChartData.push(new Series(this.feed,this.values));
+    let values = this.lineChartData[0];
+    values.data.push(val);
     console.log(`Data added ${data.timeStamp}: ${val}`);
     console.info(`${this.feed} Labels: ${this.lineChartLabels.length}`);
     console.info(`${this.feed} Series: ${this.lineChartData[0].data.length}`);

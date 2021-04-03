@@ -1,15 +1,13 @@
-<div class="container">
-  <div class="row">
-    <div class="col s8 offset-2">
-      <form #imageForm=ngForm (ngSubmit)="OnSubmit(Image)">
+    <div>
+      <form #imageForm=ngForm (ngSubmit)="OnSubmit(image)">
         <div class="row">
           <div class="col-md-12">
-            <img [src]="imageToShow" style="max-width:500px;max-height:500px">
+            <img [src]="imageToShow" style="max-width:500px;max-height:500px" (click)="image.click()">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <input type="file" (change)="handleFileInput($event.target.files)" #Image accept="image/*">
+            <input style="display:none;" type="file" (change)="handleFileInput($event.target.files)" #image accept="image/*">
           </div>
         </div>
         <div class="row">
@@ -19,8 +17,6 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button type="submit" class="btn btn-info btn-md" [disabled]="Image.value==''">Submit</button>
-            <input type="button" class="btn btn-info btn-md" (click)="cancel()" value="cancel">
           </div>
         </div>
         <div class="row" *ngIf="error">
@@ -35,5 +31,3 @@
 
       </form>
     </div>
-  </div>
-</div>

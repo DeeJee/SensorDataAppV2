@@ -12,6 +12,7 @@ import * as signalR from '@aspnet/signalR';
 import { SensorDataService } from '../services/sensordata.service';
 import { Series } from '../sensordata-chart/series';
 import { environment } from '../../../../environments/environment';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-channeldata',
@@ -20,6 +21,7 @@ import { environment } from '../../../../environments/environment';
     animations: [routerTransition()]
 })
 export class ChanneldataComponent implements OnInit, OnDestroy {
+    subs = new Subscription();
     noImageFound: string = "assets/images/noimage.png";
     imageToShow: any = this.noImageFound;
     isImageLoading: boolean;
@@ -103,14 +105,16 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         console.log("SignalR unsubscribed");
-        this.hubConnection.stop()
+        this.hubConnection.stop();
+        this.subs.unsubscribe();
     }
 
     public dataSourceChanged(dataSource: Datasource): void {
+        //this.subs.unsubscribe();
         this.dataSource = dataSource;
         this.loadCharts();
 
-        this.datasourceService.getDataSourceImageById(this.dataSource.DeviceId).subscribe(
+        this.subs.add(this.datasourceService.getDataSourceImageById(this.dataSource.DeviceId).subscribe(
             data => {
                 this.createImageFromBlob(data);
                 this.isImageLoading = false;
@@ -122,7 +126,7 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
                     console.log(error);
                 }
             }
-        );
+        ));
     }
 
     switchTab(tab: string): void {
@@ -143,7 +147,6 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
         return `${value.year}-${month}-${day}`;
     }
     private loadCharts() {
-
         // this.dialogRef = this.dialog.open(CreateDataTypeComponent,
         //     {
         //       data: { datasource: ds, title: "aap" },
@@ -161,19 +164,19 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
         this.charts = [];
 
         console.log('voor call: startDate: ' + this.startDate + ', endDate: ' + this.endDate);
-        this.sensorDataService.getMostRecent(this.dataSource.DeviceId).subscribe(res => {
+        this.subs.add(this.sensorDataService.getMostRecent(this.dataSource.DeviceId).subscribe(res => {
             this.lastData = res.TimeStamp.toString();
-        });
+        }));
 
 
-        this.dataTypeService.getById(this.dataSource.DataTypeId).subscribe(dataType => {
+        this.subs.add(this.dataTypeService.getById(this.dataSource.DataTypeId).subscribe(dataType => {
             this.properties = dataType.Properties.split(',');
 
             //loading chart data
             let startDate = this.convertToString(this.fromPicker.model);
             let endDate = this.convertToString(this.toPicker.model);
             console.log("getting data");
-            this.sensorDataService.getData(this.dataSource.DeviceId, startDate, endDate).subscribe(res => {
+            this.subs.add(this.sensorDataService.getData(this.dataSource.DeviceId, startDate, endDate).subscribe(res => {
 
                 //create the feeds
                 for (let property of this.properties) {
@@ -219,8 +222,8 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
                     console.log('channel data loaded');
                     //this.showSpinner = false;
                     this.loading = false;
-                });
-        });
+                }));
+        }));
     }
 
     private publishData(timestamp: Date, payload: any, properties: string[]): void {

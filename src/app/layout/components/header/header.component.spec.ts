@@ -3,8 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HeaderComponent } from './header.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AdalService } from 'adal-angular4';
 import { FakeAdalService } from '../../../shared/fakes/FakeAdalService';
+import { MsAdalAngular6Service } from 'microsoft-adal-angular6';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -15,7 +15,7 @@ describe('HeaderComponent', () => {
       imports: [TranslateModule, RouterTestingModule],
       declarations: [HeaderComponent],
       providers: [
-        { provide: AdalService, useClass: FakeAdalService }
+        { provide: MsAdalAngular6Service, useClass: FakeAdalService }
       ]
     })
       .compileComponents();

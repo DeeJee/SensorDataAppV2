@@ -6,6 +6,10 @@ import { FakeActivatedRoute } from '../../../shared/fakes/FakeActivatedRoute';
 import { DatasourceService } from '../services/datasource.service';
 import { FakeDatasourceService } from '../../../shared/fakes/FakeDatasourceService';
 import { DataTypeService } from '../services/datatype.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { SensorDataService } from '../services/sensordata.service';
+import { FakeSensorDataService } from '../../../shared/fakes/FakeSensorDataService';
+import { of } from 'rxjs';
 
 describe('DatasourceDetailsComponent', () => {
   let component: DatasourceDetailsComponent;
@@ -13,11 +17,17 @@ describe('DatasourceDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [DatasourceDetailsComponent],
       providers: [
-        { provide: ActivatedRoute, useClass: FakeActivatedRoute },
+        {
+          provide: ActivatedRoute, useValue: {
+            params: of({ id: 123 })
+          }
+        },
         { provide: DatasourceService, useClass: FakeDatasourceService },
-        { provide: DataTypeService, useClass: FakeDatasourceService }
+        { provide: DataTypeService, useClass: FakeDatasourceService },
+        { provide: SensorDataService, useClass: FakeSensorDataService }
       ]
     })
       .compileComponents();

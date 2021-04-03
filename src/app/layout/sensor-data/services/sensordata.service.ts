@@ -46,6 +46,11 @@ export class SensorDataService {
     //         //.map(res => res).catch(this.handleError);
     // }
 
+    public getMostRecentAll(): Observable<DataModel> {
+        let url = `${this.host}${this.baseUrl}/SensorData/MostRecent`;
+        return this.http.get<DataModel>(url);
+    }
+
     public getMostRecent(dataSource: string): Observable<DataModel> {
         let url = `${this.host}${this.baseUrl}/SensorData/${dataSource}/MostRecent`;
         return this.http.get<DataModel>(url);

@@ -29,10 +29,10 @@ export class DatasourceService {
         return this.http.get<Datasource[]>(url);
     }
 
-    public getDataSourceById(id: string): Observable<Datasource[]> {
+    public getDataSourceById(id: string): Observable<Datasource> {
         console.log('getDataSources: ' + new Date().toString());
         let url = `${this.host}${this.baseUrl}/DataSource/${id}`;
-        return this.http.get<Datasource[]>(url);
+        return this.http.get<Datasource>(url);
     }
 
     public getDataSourceImageById(id: string): Observable<Blob> {

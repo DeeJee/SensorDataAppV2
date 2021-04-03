@@ -45,6 +45,8 @@ export class UploadImageComponent implements OnInit {
       this.imageToShow = event.target.result;
     }
     reader.readAsDataURL(this.fileToUpload);
+
+    this.OnSubmit(this.fileToUpload);    
   }
 
   OnSubmit(Image) {
@@ -52,16 +54,11 @@ export class UploadImageComponent implements OnInit {
       data => {
         console.log("Upload complete");
         Image.value = null;
-        this.location.back();
       },
       err=>{
         this.error=err.error.ExceptionMessage;
       }
     );
-  }
-
-  cancel() {
-    this.location.back();
   }
 
   private createImageFromBlob(image: Blob) {

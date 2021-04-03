@@ -31,8 +31,8 @@ export class NotificationsService {
     //.map(res => res)
   }
 
-  public Delete(id: number): Observable<void> {
-    let url = `${this.host}${this.baseUrl}/Notifications/${id}`;
+  public Delete(id: number, deviceId:string): Observable<void> {
+    let url = `${this.host}${this.baseUrl}/Notifications/${id}&${deviceId}`;
     return this.http.delete<void>(url);
     //.map(res => null).catch(this.handleError);
   }

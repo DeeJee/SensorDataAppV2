@@ -1,22 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { AlertComponent } from './alert.component';
+import { LastEntriesComponent } from './last-entries.component';
 
-describe('AlertComponent', () => {
-  let component: AlertComponent;
-  let fixture: ComponentFixture<AlertComponent>;
+describe('LastEntriesComponent', () => {
+  let component: LastEntriesComponent;
+  let fixture: ComponentFixture<LastEntriesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AlertComponent ],
-      imports: [ NgbModule ]
+      declarations: [ LastEntriesComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AlertComponent);
+    fixture = TestBed.createComponent(LastEntriesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

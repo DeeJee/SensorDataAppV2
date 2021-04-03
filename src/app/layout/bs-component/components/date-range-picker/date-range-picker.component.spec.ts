@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DateRangePickerComponent } from './date-range-picker.component';
-import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
 
 describe('DateRangePickerComponent', () => {
   let component: DateRangePickerComponent;
@@ -11,7 +11,7 @@ describe('DateRangePickerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         DateRangePickerComponent,
-        NgbCalendar
+       // NgbCalendar
       ]
     })
       .compileComponents();

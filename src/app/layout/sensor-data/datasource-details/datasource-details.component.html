@@ -2,7 +2,8 @@
   <p class="h4 mb-4">Datasource details</p>
   <div class="row">
       <div class="col-md-6" (click)="uploadImage()">
-        <img [src]="imageToShow" style="width:250px;height:200px" alt="Place image title" *ngIf="!isImageLoading; else noImageFound">
+        <!-- <img [src]="imageToShow" style="width:250px;height:200px" alt="Place image title" *ngIf="!isImageLoading; else noImageFound">  -->
+          <app-upload-image></app-upload-image>
         <ng-template #noImageFound>
           <img src="assets/images/noimage.png" style="width:250px;height:200px" alt="Fallbackimage">
         </ng-template>            
@@ -21,7 +22,7 @@
       <label>Description</label>
     </div>
     <div class="col-md-3" *ngIf="datasource">
-      <input class="form-control-plaintext" value="{{datasource.Description}}">
+      {{datasource.Description}}
     </div>
   </div>
   <div class="row">

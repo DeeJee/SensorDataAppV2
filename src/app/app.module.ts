@@ -9,9 +9,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { environment } from '../environments/environment.prod';
 import { MsAdalAngular6Module, AuthenticationGuard } from 'microsoft-adal-angular6';
 import { InsertAuthTokenInterceptor } from './shared/interceptors/insert-auth-token-interceptor';
+import { environment } from '../environments/environment';
 
 
 // AoT requires an exported function for factories

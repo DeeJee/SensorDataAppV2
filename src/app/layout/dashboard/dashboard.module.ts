@@ -12,6 +12,7 @@ import {
 import { StatModule } from '../../shared';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { NotificationsService } from './notifications/notifications.service';
+import { LastEntriesComponent } from './last-entries/last-entries.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { NotificationsService } from './notifications/notifications.service';
         TimelineComponent,
         NotificationComponent,
         NotificationsComponent,
-        ChatComponent
+        ChatComponent,
+        LastEntriesComponent
     ],
     providers:[
         NotificationsService

@@ -45,8 +45,8 @@ export class NotificationsComponent implements OnInit {
     }, err => console.log(err));
   }
 
-  delete(id: number): void {
-    this.notificationsService.Delete(id).subscribe(res => {
+  delete(id: number, deviceId:string): void {
+    this.notificationsService.Delete(id, deviceId).subscribe(res => {
 
       let index: number;
       this.notifications.forEach((item) => {

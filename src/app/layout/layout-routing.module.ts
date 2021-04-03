@@ -13,9 +13,12 @@ const routes: Routes = [
         component: LayoutComponent,
         children: [
             { path: '', redirectTo: 'dashboard' },
-            { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'channeldata', loadChildren: './sensor-data/channel-data/channeldata.module#ChanneldataModule' },
-            { path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
+            //{ path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+            { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+            //{ path: 'channeldata', loadChildren: './sensor-data/channel-data/channeldata.module#ChanneldataModule' },
+            { path: 'channeldata', loadChildren: () => import('./sensor-data/channel-data/channeldata.module').then(m => m.ChanneldataModule) },
+            //{ path: 'components', loadChildren: './bs-component/bs-component.module#BsComponentModule' },
+            { path: 'components', loadChildren: () => import('./bs-component/bs-component.module').then(m => m.BsComponentModule) },
 
             { path: 'adddatasources', component: AddDatasourceComponent },
             { path: 'managedatasources', component: DatasourceManagementComponent },

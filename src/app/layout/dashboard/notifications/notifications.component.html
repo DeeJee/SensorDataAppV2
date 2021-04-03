@@ -6,7 +6,7 @@
         
             <span class="float-right text-muted small">
                 <em>{{notification.Created | date:'dd-MM-yyyy HH:mm:ss'}}</em>
-                &nbsp;<a href="javascript:void(0)" class="fa fa-trash-o" (click)="delete(notification.Id)"></a>
+                &nbsp;<a href="javascript:void(0)" class="fa fa-trash-o" (click)="delete(notification.Id, notification.DeviceId)"></a>
             </span>
         </a>
     </div>

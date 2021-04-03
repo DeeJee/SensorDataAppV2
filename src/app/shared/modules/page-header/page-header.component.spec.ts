@@ -15,7 +15,7 @@ describe('PageHeaderComponent', () => {
         RouterTestingModule
       ],
       declarations: [PageHeaderComponent],
-      providers: [Router]
+      providers: []
     })
       .compileComponents();
   }));

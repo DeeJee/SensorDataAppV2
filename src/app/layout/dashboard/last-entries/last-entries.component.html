@@ -1,0 +1,12 @@
+<div class="card-body">
+    <div class="row">
+        <div class="col-md-1">Id</div>
+        <div class="col-md-3">Timestamp</div>
+        <div class="col-md-8">Payload</div>
+    </div>
+    <div class="row" *ngFor="let entry of entries">
+        <div class="col-md-1">{{entry.DeviceId}}</div>
+        <div class="col-md-3">{{entry.TimeStamp | date:'yyyy-MM-dd HH:mm' }}</div>
+        <div class="col-md-8">{{entry.Payload}}</div>
+    </div>
+</div>

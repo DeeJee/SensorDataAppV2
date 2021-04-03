@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 import { DatasourceService } from '../services/datasource.service';
 import { FakeDatasourceService } from '../../../shared/fakes/FakeDatasourceService';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -21,6 +22,7 @@ describe('DatasourceManagementComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         FormsModule,
         RouterTestingModule
       ],

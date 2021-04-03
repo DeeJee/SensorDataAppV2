@@ -55,14 +55,12 @@ export class DatasourceDetailsComponent implements OnInit {
       );
 
 
-      this.datasourceService.getDataSourceById(this.id).subscribe((res: Datasource[]) => {
-        if (res.length == 1) {
-          this.datasource = res[0];
-          this.datatypeService.getById(res[0].DataTypeId).subscribe(res => {
+      this.datasourceService.getDataSourceById(this.id).subscribe((res: Datasource) => {
+          this.datasource = res;
+          this.datatypeService.getById(res.DataTypeId).subscribe(res => {
             this.datatype = res;
             this.fields = res.Properties;
           });
-        }
       }, (err: HttpErrorResponse) => {
         //console.log("status code: " + err.status);
         console.log(err);
@@ -85,7 +83,11 @@ export class DatasourceDetailsComponent implements OnInit {
   }
 
   uploadImage() {
-    this.router.navigate(['/uploadImage',this.id]);
+    //this.router.navigate(['/uploadImage',this.id]);
+  }
+
+  handleFileInput(file: FileList) {
+   
   }
 
   deleteData(): void {
