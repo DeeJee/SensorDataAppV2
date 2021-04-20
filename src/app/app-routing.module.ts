@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthenticationGuard, MsAdalAngular6Service } from 'microsoft-adal-angular6';
+import { MsalGuard } from '@azure/msal-angular';
 
 const routes: Routes = [
     //{ path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthenticationGuard] },
-    { path: '', loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule), canActivate: [AuthenticationGuard] },
-    { path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: '', loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule), canActivate: [MsalGuard] },
+    //{ path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: 'login', loadChildren:  () => import('./login/login.module').then(m => m.LoginModule) },
     
     { path: 'error', loadChildren: () => import('./server-error/server-error.module').then(m => m.ServerErrorModule) },
 //    { path: 'error', loadChildren: './server-error/server-error.module#ServerErrorModule' },
@@ -18,9 +19,7 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forRoot(routes, {enableTracing:false})],
-    providers:[
-        MsAdalAngular6Service
-    ],
+    providers:[],
     exports: [RouterModule]
 })
 export class AppRoutingModule {}

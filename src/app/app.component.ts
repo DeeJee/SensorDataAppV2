@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import { AdalService } from 'adal-angular4/adal.service';
 import { environment } from '../environments/environment';
-import { MsAdalAngular6Module } from 'microsoft-adal-angular6';
+import { AuthService } from './services/auth.service';
 
 @Component({
     selector: 'app-root',
@@ -9,11 +9,19 @@ import { MsAdalAngular6Module } from 'microsoft-adal-angular6';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-    constructor(private adalService:MsAdalAngular6Module) {
+    constructor(private authService:AuthService) {
     }
 
-    ngOnInit() {
-        //this.adalService.init(environment.adalConfig);
-        //this.adalService.handleWindowCallback();
-    }
+    ngOnInit(): void {
+        this.authService.updateLoggedInStatus();
+        //this.authService.login();
+      }
+
+      login() {
+        this.authService.login();
+      }
+
+      logout() {
+        this.authService.logout();
+      }
 }
