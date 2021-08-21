@@ -30,6 +30,7 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
     startDate: any;
     endDate: any;
     lastData: string;
+    lastDate: Date;
     public dataSource: Datasource;
     labels: Date[] = [];
     feeds = new Collections.Dictionary<string, Series[]>();
@@ -112,7 +113,13 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
     public dataSourceChanged(dataSource: Datasource): void {
         //this.subs.unsubscribe();
         this.dataSource = dataSource;
-        this.loadCharts();
+        this.sensorDataService.getMostRecent(this.dataSource.DeviceId).subscribe(res => {
+            this.lastDate = new Date(res.TimeStamp);
+            this.lastData = res.TimeStamp.toString();
+            //nu weten we op welke dag de laatste dataset is binnen gekomen
+            this.loadCharts();
+        });
+
 
         this.subs.add(this.datasourceService.getDataSourceImageById(this.dataSource.DeviceId).subscribe(
             data => {
@@ -164,9 +171,9 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
         this.charts = [];
 
         console.log('voor call: startDate: ' + this.startDate + ', endDate: ' + this.endDate);
-        this.subs.add(this.sensorDataService.getMostRecent(this.dataSource.DeviceId).subscribe(res => {
-            this.lastData = res.TimeStamp.toString();
-        }));
+        // this.subs.add(this.sensorDataService.getMostRecent(this.dataSource.DeviceId).subscribe(res => {
+        //     this.lastData = res.TimeStamp.toString();
+        // }));
 
 
         this.subs.add(this.dataTypeService.getById(this.dataSource.DataTypeId).subscribe(dataType => {
@@ -176,6 +183,13 @@ export class ChanneldataComponent implements OnInit, OnDestroy {
             let startDate = this.convertToString(this.fromPicker.model);
             let endDate = this.convertToString(this.toPicker.model);
             console.log("getting data");
+            if (!startDate && !endDate) {
+                console.log(this.lastDate);
+               // return `${this.lastDate.getFullYear()}-${this.lastDate.getMonth()}-${this.lastDate.getDay()}`;
+                //startDate = new Date(this.lastDate.getFullYear(), this.lastDate.getMonth(), this.lastDate.getDay()).toString('yyyy');
+                startDate = this.lastDate.toISOString().split('T')[0]
+                //startDate = this.lastDate.getDate().toString();
+            }
             this.subs.add(this.sensorDataService.getData(this.dataSource.DeviceId, startDate, endDate).subscribe(res => {
 
                 //create the feeds

@@ -18,8 +18,8 @@ export const environment = {
   tenantName: 'dennisjansenonline',
   services: {
     sensorDataService: {
-      host: "https://iotsensordata.azurewebsites.net:443",
-      //host: "https://localhost:44399",
+      //host: "https://iotsensordata.azurewebsites.net:443",
+      host: "https://localhost:44399",
       //host: "https://localhost:58847",
       baseUrl: "/api"
     }
