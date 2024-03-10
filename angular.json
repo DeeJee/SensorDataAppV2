@@ -130,6 +130,6 @@
           }
         }
       }
-    }},
-  "defaultProject": "sensordata-app"
+    }
+  }
 }
