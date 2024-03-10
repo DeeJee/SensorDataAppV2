@@ -26,7 +26,7 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
         MatDialogModule,
         LoadingSpinnerModule
     ],
-    declarations:[
+    declarations: [
         AddDatasourceComponent,
         DatasourceManagementComponent,
         DataTypeControlComponent,
@@ -35,15 +35,12 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
         UploadImageComponent
     ],
     exports: [],
-    providers:[
+    providers: [
         QuerystringBuilderService,
         SensorDataService,
         DataTypeService,
         DatasourceService,
-        MatDialog        
-    ],
-    entryComponents:[
-        CreateDataTypeComponent
+        MatDialog
     ]
 })
 export class SensorDataModule {}

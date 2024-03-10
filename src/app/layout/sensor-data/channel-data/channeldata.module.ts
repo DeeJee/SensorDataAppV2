@@ -38,9 +38,6 @@ import { BsComponentModule } from '../../bs-component/bs-component.module';
         QuerystringBuilderService,
         CachingSensorDataService,
         DataTypeService
-    ],
-    entryComponents: [
-        SensorDataChartComponent
     ]
 })
 export class ChanneldataModule { }
