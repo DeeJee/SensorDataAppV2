@@ -350,14 +350,14 @@
     request "^2.88.0"
     ws "^6.0.0"
 
-"@azure/msal-angular@^2.5.12":
-  version "2.5.12"
-  resolved "https://registry.npmjs.org/@azure/msal-angular/-/msal-angular-2.5.12.tgz"
-  integrity sha512-7n03wEkXGzSYeW5RHwi8S/wvqVNnSA4cP63pIer49MtG/1ya6PUTVENQUtCz1MgdJIBTBLLE1xD7674FlMIhPA==
+"@azure/msal-angular@^3.0.13":
+  version "3.0.13"
+  resolved "https://registry.npmjs.org/@azure/msal-angular/-/msal-angular-3.0.13.tgz"
+  integrity sha512-HqXwgERyQZ9yYjTeSsVX8aP9vEmRt6blYSMcAzUxaatFV8++T6m4ByBySZdSV2LLdEdCXtAeB1dEDT68rElo/Q==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.3.0"
 
-"@azure/msal-browser@^2.14.0", "@azure/msal-browser@^2.38.3":
+"@azure/msal-browser@^2.38.3", "@azure/msal-browser@^3.10.0":
   version "2.38.3"
   resolved "https://registry.npmjs.org/@azure/msal-browser/-/msal-browser-2.38.3.tgz"
   integrity sha512-2WuLFnWWPR1IdvhhysT18cBbkXx1z0YIchVss5AwVA95g7CU5CpT3d+5BcgVGNXDXbUU7/5p0xYHV99V5z8C/A==
@@ -6800,7 +6800,7 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-"rxjs@^6.0.0 || ^7.0.0", "rxjs@^6.5.3 || ^7.4.0", "rxjs@^6.5.5 || ^7.4.0", rxjs@^6.6.7, rxjs@>=6.5.3:
+"rxjs@^6.5.3 || ^7.4.0", "rxjs@^6.5.5 || ^7.4.0", rxjs@^6.6.7, rxjs@^7.0.0, rxjs@>=6.5.3:
   version "6.6.7"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
