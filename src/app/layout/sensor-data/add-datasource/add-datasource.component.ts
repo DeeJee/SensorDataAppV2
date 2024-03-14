@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DatasourceService } from '../services/datasource.service';
 import { DataTypeService } from '../services/datatype.service';
 import { QuerystringBuilderService } from '../services/querystringbuilder.service';

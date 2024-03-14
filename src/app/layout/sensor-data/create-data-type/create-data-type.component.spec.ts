@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDataTypeComponent } from './create-data-type.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FakeMatDialogRef } from '../../../shared/fakes/FakeMatDialogRef';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 describe('CreateDataTypeComponent', () => {
   let component: CreateDataTypeComponent;
