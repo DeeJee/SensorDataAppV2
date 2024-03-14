@@ -16,7 +16,6 @@ import {
     PaginationComponent,
     PopOverComponent,
     ProgressbarComponent,
-    TabsComponent,
     TimepickerComponent,
     DateRangePickerComponent
 } from './components';
@@ -43,7 +42,6 @@ import { PageHeaderModule } from '../../shared';
         PaginationComponent,
         PopOverComponent,
         ProgressbarComponent,
-        TabsComponent,
         TimepickerComponent,
         DateRangePickerComponent,
         SdDatePickerComponent
