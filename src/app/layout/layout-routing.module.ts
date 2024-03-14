@@ -12,7 +12,7 @@ const routes: Routes = [
         path: '',
         component: LayoutComponent,
         children: [
-            { path: '', redirectTo: 'dashboard' },
+            { path: '', pathMatch:"full", redirectTo: 'dashboard' },
             //{ path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
             //{ path: 'channeldata', loadChildren: './sensor-data/channel-data/channeldata.module#ChanneldataModule' },
