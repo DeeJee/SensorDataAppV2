@@ -230,7 +230,7 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^12.2.17", "@angular/core@^9.0.0", "@angular/core@>=10.0.0", "@angular/core@>=2.3.1 <7.0.0 || >6.0.0-beta <7.0.0", "@angular/core@>=7.0.0", "@angular/core@>=7.2.0", "@angular/core@12.2.17", "@angular/core@7.2.16":
+"@angular/core@^11.0.0 || ^12.0.0-0", "@angular/core@^12.2.17", "@angular/core@^9.0.0", "@angular/core@>=10.0.0", "@angular/core@>=2.3.1 <7.0.0 || >6.0.0-beta <7.0.0", "@angular/core@>=7.0.0", "@angular/core@>=7.2.0", "@angular/core@12.2.17":
   version "12.2.17"
   resolved "https://registry.npmjs.org/@angular/core/-/core-12.2.17.tgz"
   integrity sha512-XUvTgU0D8XqNH5Y7UlTMk/XjUQaEGC0kZxhw/QSSQr65WrXtXmcD4d8Cg84TJ52uGXmf7IAruKvtbvu1Mbmvug==
@@ -257,13 +257,6 @@
   integrity sha512-g1/SF9lY0ZwzJ0w4NXbFsTGGEuUdgtaZny8DmkaqtmA7idby3FW398X0tv25KQfVYKtL+p9Jp1Y8EI0CvrIsvw==
   dependencies:
     tslib "^1.7.1"
-
-"@angular/http@^7.2.16":
-  version "7.2.16"
-  resolved "https://registry.npmjs.org/@angular/http/-/http-7.2.16.tgz"
-  integrity sha512-yvjbNyzFSmmz4UTjCdy5M8mk0cZqf9TvSf8yN5UVIwtw4joyuUdlgJCuin0qSbQOKIf/JjHoofpO2JkPCGSNww==
-  dependencies:
-    tslib "^1.9.0"
 
 "@angular/language-service@^12.2.17":
   version "12.2.17"
@@ -300,7 +293,7 @@
   dependencies:
     tslib "^1.7.1"
 
-"@angular/platform-browser@^12.2.17", "@angular/platform-browser@>=2.3.1 <7.0.0 || >6.0.0-beta <7.0.0", "@angular/platform-browser@12.2.17", "@angular/platform-browser@7.2.16":
+"@angular/platform-browser@^12.2.17", "@angular/platform-browser@>=2.3.1 <7.0.0 || >6.0.0-beta <7.0.0", "@angular/platform-browser@12.2.17":
   version "12.2.17"
   resolved "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-12.2.17.tgz"
   integrity sha512-fxs0FDEnS9mzd36u0bHd6TbCvRC9pqK0YCWNnoLCf5ALQtyIL8CpgGNjOMnO8mCEl5l9QTFCDvKOn4V3p7E/dg==
@@ -7398,7 +7391,7 @@ rxjs@^5.5.0, rxjs@5.5.5:
   dependencies:
     symbol-observable "1.0.1"
 
-rxjs@^6.0.0, "rxjs@^6.0.0 || ^7.0.0", rxjs@^6.3.3, rxjs@^6.5.3, "rxjs@^6.5.3 || ^7.0.0", rxjs@^6.6.7, rxjs@>=6.5.3, rxjs@6.6.7:
+"rxjs@^6.0.0 || ^7.0.0", rxjs@^6.3.3, rxjs@^6.5.3, "rxjs@^6.5.3 || ^7.0.0", rxjs@^6.6.7, rxjs@>=6.5.3, rxjs@6.6.7:
   version "6.6.7"
   resolved "https://registry.npmjs.org/rxjs/-/rxjs-6.6.7.tgz"
   integrity sha512-hTdwr+7yYNIT5n4AMYp85KA6yw2Va0FLa3Rguvbpa4W3I5xynaBZo41cM3XM+4Q6fRMj3sBYIR1VAmZMXYJvRQ==
